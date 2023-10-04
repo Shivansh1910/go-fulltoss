@@ -1,3 +1,27 @@
-# This file stores configurations for your Shopify app.
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-scopes = "write_products"
+name = "go-fulltoss"
+client_id = "9983de871b4cfab428de4894dececed3"
+application_url = "https://states-started-manage-hospital.trycloudflare.com"
+embedded = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_products,read_script_tags,write_script_tags"
+
+[auth]
+redirect_urls = [
+  "https://states-started-manage-hospital.trycloudflare.com/auth/callback",
+  "https://states-started-manage-hospital.trycloudflare.com/auth/shopify/callback",
+  "https://states-started-manage-hospital.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2023-10"
+
+[pos]
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "apollonox-1.myshopify.com"

@@ -46,6 +46,40 @@ app.get("/api/products/count", async (_req, res) => {
   res.status(200).send(countData);
 });
 
+// get all script tags
+app.get("/api/scripttags", async (_req, res) => {
+  const scriptTags = await shopify.api.rest.ScriptTag.all({
+    session: res.locals.shopify.session,
+  });
+  res.status(200).send(scriptTags);
+});
+
+app.post("/api/scripttag/install", async (req, res) => {
+  const allSriptTags = await shopify.api.rest.ScriptTag.all({
+    session: res.locals.shopify.session,
+  });
+
+  const scriptTag = allSriptTags.data.find(
+    (scriptTag) => scriptTag.src === req.body.script_url
+  );
+
+  if (scriptTag) {
+    res.status(200).send(scriptTag);
+    return;
+  }
+
+  const script_tag = new shopify.api.rest.ScriptTag({
+    session: res.locals.shopify.session,
+  });
+  script_tag.event = "onload";
+  script_tag.src = req.body.script_url;
+  script_tag.save({
+    update: true,
+  });
+
+  res.status(200).send(script_tag);
+});
+
 app.get("/api/products/create", async (_req, res) => {
   let status = 200;
   let error = null;

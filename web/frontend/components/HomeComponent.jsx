@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { LegacyCard, VerticalStack, Text } from "@shopify/polaris";
+import { LegacyCard, VerticalStack, Text, Button } from "@shopify/polaris";
 import { Toast } from "@shopify/app-bridge-react";
 import { useTranslation } from "react-i18next";
 import { useAppQuery, useAuthenticatedFetch } from "../hooks";
 
-export function ProductsCard() {
+export function HomeComponent() {
   const emptyToastProps = { content: null };
   const [isLoading, setIsLoading] = useState(true);
   const [toastProps, setToastProps] = useState(emptyToastProps);
@@ -50,11 +50,40 @@ export function ProductsCard() {
     }
   };
 
+  const handleInstall = async () => {
+    setIsLoading(true);
+
+    const script_url =
+      "https://2k21.s3.ap-south-1.amazonaws.com/testingJavascript/index.js";
+
+    const response = await fetch("/api/scripttag/install", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ script_url }),
+    });
+    const json = await response.json();
+
+    console.log("response", json);
+    setIsLoading(false);
+  };
+
+  const handleScripts = async () => {
+    setIsLoading(true);
+
+    const response = await fetch("/api/scripttags");
+    const json = await response.json();
+
+    console.log("response", json);
+    setIsLoading(false);
+  };
+
   return (
     <>
       {toastMarkup}
       <LegacyCard
-        title={t("ProductsCard.title")}
+        title={"HomeComponent"}
         sectioned
         primaryFooterAction={{
           content: t("ProductsCard.populateProductsButton", {
@@ -64,14 +93,19 @@ export function ProductsCard() {
           loading: isLoading,
         }}
       >
-        <VerticalStack spacing="loose">
+        <VerticalStack spacing='loose'>
           <p>{t("ProductsCard.description")}</p>
-          <Text as="h4" variant="headingMd">
+          <Text as='h4' variant='headingMd'>
             {t("ProductsCard.totalProductsHeading")}
-            <Text variant="bodyMd" as="p" fontWeight="semibold">
+            <Text variant='bodyMd' as='p' fontWeight='semibold'>
               {isLoadingCount ? "-" : data.count}
             </Text>
           </Text>
+        </VerticalStack>
+
+        <VerticalStack spacing='loose'>
+          <Button onClick={handleInstall}>Install Script</Button>
+          <Button onClick={handleScripts}>Get Scripts</Button>
         </VerticalStack>
       </LegacyCard>
     </>
