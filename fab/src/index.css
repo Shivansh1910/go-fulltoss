@@ -1,0 +1,60 @@
+* {
+  box-sizing: border-box;
+}
+
+.fab {
+  all: unset;
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  background-color: crimson;
+  color: white;
+  height: 64px;
+  width: 64px;
+  font-size: 32px;
+  line-height: 32px;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 50%;
+  z-index: 98;
+  opacity: 1;
+  transition: all 0s 0.485s, transform 0.485s 0s;
+}
+
+.fab.close {
+  opacity: 0;
+  border-radius: 10px;
+  transform: translate(-300px, -300px);
+}
+
+.fab-modal {
+  visibility: hidden;
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  background-color: crimson;
+  color: white;
+  height: 64px;
+  width: 64px;
+  border-radius: 50%;
+  z-index: -1;
+  transition: all 0.485s, border-radius 0.285s, z-index 0s;
+  padding: 1em;
+}
+
+.fab-modal>* {
+  opacity: 0;
+}
+
+.fab-modal.open {
+  visibility: visible;
+  opacity: 1;
+  border-radius: 10px;
+  height: calc(100% - 32px);
+  width: calc(100% - 32px);
+  z-index: 99;
+}
+
+.fab-modal.open>* {
+  opacity: 1;
+}
